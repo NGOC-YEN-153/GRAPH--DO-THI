@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n  , m ;
+char a[1005][1005] ;
+int u , v , s , t;
+int dx[4] = { -1, 0 ,1 ,0}, dy[4] = { 0, 1, 0, -1};
+bool dfs(int  i , int j ,int huong, int cnt){
+    a[i][j] = '*';
+    if(cnt > 2){
+        a[i][j] = '.';
+        return false;
+    }
+    if(i == u && j == v)return true;
+    for(int k = 0 ; k < 4 ;k++ ){
+        int I = i + dx[k]  , J = j + dy[k];
+        if( I >= 1 && J >= 1 && I <= n && J <= m && a[I][J] == '.'){
+            if( k == huong || huong == -1){
+                if( dfs(I, J , k, cnt) )return true ;
+            }
+            else {
+                if( dfs(I, J , k , cnt +1) ) return true ;
+            }
+        }
+        }
+    a[i][j] = '.';
+    return false;
+}
+int main(){
+    cin>>n>>m;
+      for(int i = 1 ; i <= n; i++){
+          for(int j = 1 ; j <= m ; j++ ){
+              cin>>a[i][j];
+              if(a[i][j] == 'S'){
+                  s = i ;
+                  t= j;
+                  a[i][j] = '.';
+              }
+              else if( a[i][j] ==  'T'){
+                  u = i;
+                  v = j;
+                  a[i][j] = '.';
+              }
+          }
+    }
+    int ok = dfs(s , t , -1 , 0);
+    if(ok)cout<<"YES";
+    else cout << "NO";
+}
