@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n , s , t , u , v;
+int dx[8]={-1 , -1, 0, 1, 1, 1, 0, -1} , dy[8] ={ 0, 1, 1, 1, 0, -1, -1, -1};
+int a[1005][1005] ;
+int used[1005][1005];
+void dijkstra(int s,int t){// bfs nang cap , thang be cap nhat thang lon, dam bao toi uu cua toi uu
+    memset(used, 0, sizeof(used));
+    queue<ii> q;
+    q.push({s , t});
+    a[s][t] = 0;
+    while(q.size()){
+        auto x = q.front(); q.pop();
+        for(int k =0 ; k < 8 ; k++){
+            auto I =x.first + dx[k] , J = x.second + dy[k];
+            if( I >= 1 && J >= 1 && I<= n && J<= n && a[I][J]){
+                q.push({I, J});
+                used[I][J]= used[x.first][x.second] +1;
+                a[I][J] = 0;
+            }
+        }
+    }
+}
+void solve(){
+    cin>>n>>s>>t>>u>>v;
+    for(int i = 1 ; i<= n ;i++){
+        for(int j = 1 ; j <= n ; j++)cin>>a[i][j];
+    }
+    dijkstra(s,t);
+    if( u == s && t == v)cout<<0 ;
+    else if( used[u][v] == 0)cout<<-1;
+    else cout<<used[u][v];
+}
+int main(){
+    solve();
+}
