@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define f first
+#define s second
+int used[1005];
+int n,m,s,t,ok=0;
+set<int> v[1005];
+void DFS (int i,string s){
+    if( !ok ){
+        if(i == t){
+        ok = 1;
+        cout<<s;
+    }
+    else {
+        used[i]=1;
+        for(auto x: v[i]){
+            if( !used[x] ){
+                DFS(x, s + to_string (x)+ " ");
+            }
+        }
+    }
+    }
+}
+int main(){
+    cin>>n>>m>>s>>t;
+    memset(used,0,sizeof(used));
+    while(m--){
+        int x,y;cin>>x>>y;
+        v[x].insert(y);
+    }
+    ///////
+    string tmp;
+    DFS(s, to_string(s) +" " );
+    if(!ok)cout<< -1 ;
+}
