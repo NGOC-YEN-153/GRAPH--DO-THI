@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+int n,m;
+set<int> v[1005];
+char a[1005][1005];
+int dx[]={-1,0,1,0}, dy[] = { 0,1,0,-1};
+void dfs(int i , int j){
+    a[i][j] = '#';
+    for(int k = 0 ; k < 4 ;  k++){
+        int I= i+ dx[k] ,  J = j + dy[k];
+        if( I >= 0 && J >= 0 && I< n && J < m  && a[I][J] == '.' )dfs(I, J);
+    }
+}
+int main(){
+    cin>>n>>m;
+    for(int i = 0 ; i < n ; i++){
+        for(int j = 0 ; j< m ; j++)cin >> a[i][j];
+    }
+    int ans = 0 ;
+    for(int i = 0 ; i < n ; i++){
+        for(int j = 0 ; j < m ;  j++){
+            if(a[i][j] == '.'){
+                ans++;
+                dfs(i,j);
+            }
+        }
+    }
+    cout<<ans;
+}
