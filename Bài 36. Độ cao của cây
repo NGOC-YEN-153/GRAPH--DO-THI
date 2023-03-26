@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n  , m ;
+vector<int> v[1005];
+bool used[1005];
+int way[1005];
+void bfs(int u){
+    way[u] = 0;
+    queue<int> q;
+    used[u]= true;
+    q.push(u);
+    while(q.size()){
+        int x = q.front(); q.pop();
+        for(auto j : v[x] ){
+            if(!used[j]){
+                used[j] = true;
+                q.push(j);
+                way[j]= way[x] +1;
+            }
+        }
+    }
+}
+int main(){
+    int n ;cin>>n;
+    for(int i = 0 ;i< n- 1 ;i++){
+        int x , y ; cin>> x>> y;
+        v[x].push_back(y);
+        v[y].push_back(x);
+    }
+    bfs(1);
+    for(int i = 1 ; i<= n ;i++){
+        cout<<way[i]<<" ";
+    }
+}
