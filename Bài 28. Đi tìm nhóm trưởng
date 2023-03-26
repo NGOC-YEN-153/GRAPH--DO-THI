@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+int n,m;
+set<int> v[1005];
+bool used[1005];
+int name , cnt , kiluc;
+void dfs(int u){
+    used[u]=true;
+    for(auto x : v[u]){
+        if(!used[x]){
+            dfs(x);
+        }
+    }
+    if(v[u].size() > kiluc){
+        kiluc= v[u].size();
+        name = u;
+        cnt = v[u].size();
+    }
+    else if( v[u].size() == kiluc && u < name){
+        name  = u;
+    }
+}
+void inp(){
+    cin>>n>>m;
+    for(int i = 1 ;i <= m ;i++){
+         int x , y;
+         cin>>x >> y;
+         v[x].insert(y);
+         v[y].insert(x);
+    }
+}
+int main(){
+    inp();
+    set<int> se;
+    for(int i =1 ; i<= n ; i++){
+        if(!used[i]){
+            name = i;
+            cnt = 1 ;
+            kiluc = 0;
+            dfs(i);
+            se.insert(name);
+        }
+    }
+    for(auto x : se)cout<< x<<" ";
+}
