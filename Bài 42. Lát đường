@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n  , m  , ans = 1;
+vector<int> v[100005];
+int parent[100005], sz[100005];
+int find(int u){
+    if( u == parent[u]) return u;
+    return parent[u] =  find( parent[u]);
+}
+bool Union(int u ,int v){
+    u = find(u) , v = find(v);
+    if(u == v)return false;
+    if(sz[u] < sz[v])swap(u,v);
+    sz[u] += sz[v];
+    parent[v] = u;
+    ans = max( ans , sz[u]);
+    return true;
+}
+int main(){
+    cin>>n>>m;
+    int cnt  = n ;
+    for(int  i=  1 ; i<= n ;i++){
+        parent[i] = i;
+        sz[i] = 1;
+    }
+   while(m--){
+       int x , y ;cin>> x >> y;
+           int ok = Union(x,y);
+           if(ok)cout<< --cnt<<" "<<ans;
+           else cout<< cnt<<" "<<ans;
+           cout<<endl;
+   }
+    
+}
