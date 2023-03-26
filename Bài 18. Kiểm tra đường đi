@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+int used[1005];
+int n,m,q,cnt = 1;
+set<int> v[1005];
+void DFS(int u){
+    used[u] = cnt;
+    for(int x : v[u]){
+        if(!used[x]){
+            DFS(x);
+        }
+    }
+}
+int main(){
+    cin>>n>>m;
+    while(m--){
+        int x,y;cin>>x>>y;
+        v[x].insert(y);
+        v[y].insert(x);
+    }
+    memset(used, 0 , sizeof(used));
+    ///////
+//
+    for(int i = 1 ; i<= n ;i++){
+        if(!used[i]){
+            DFS(i);
+            cnt++;
+        }
+    }
+    cin>>q;
+    while(q--){
+        int s,t;cin>>s>>t;
+        if(used[s] == used[t])cout<<1;
+        else cout<<-1;
+        cout<<endl;
+    }
+}
