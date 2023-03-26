@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n , m  ;
+int cnt ;
+vector<int> store;
+vector<int> v[1005];
+bool used[1005];
+void dfs(int u ){
+    used[u] = true;
+    cnt = min( cnt, u) ;
+    for(auto x : v[u]){
+        if(!used[x])dfs(x);
+    }
+}
+void inp(){
+    cin >> n >>m;
+    while(m--){
+        int x , y;
+        cin >> x >> y;
+        v[x].push_back(y);
+        v[y].push_back(x);
+    }
+}
+void solve(){
+    inp();
+    for(int i = 1 ; i<= n ;i++){
+        if( !used[i]){
+            cnt = 1e9;
+            dfs(i);
+            store.push_back(cnt);
+        }
+    }
+    cout<<store.size() - 1<<endl;
+    for(int i = 1 ; i  < store.size() ; i++){
+        cout<<store[i-1]<<" "<<store[i]<<endl;
+    }
+}
+int main(){
+    solve();
+}
