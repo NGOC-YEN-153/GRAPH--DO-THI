@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n , m , q ;
+int a[1005][1005];
+void inp(){
+    cin >> n >>m;
+    for(int i = 1; i<= n ;i++){
+        for(int j = 1 ; j<= n ;j++){
+            if( i == j)a[i][j] = 0 ;
+            else a[i][j] = 1e9;
+        }
+    }
+    while(m--){
+        int x , y , z;
+        cin>>x>> y >> z;
+        a[x][y] = a[y][x] = z;
+    }
+}
+void floy(){
+       for(int k = 1 ; k<= n; k++){
+           for(int i = 1 ; i<= n ; i++){
+               for(int  j = 1 ; j<= n ; j++)a[i][j]= min( a[i][j] , a[i][k] + a[k][j]);
+           }
+       }
+}
+void solve(){
+    inp();
+    floy();
+    cin >> q;
+    while(q--){
+        int x , y;
+        cin >> x >> y;
+        cout<< a[x][y]<<endl;
+    }
+}
+int main(){
+    solve();
+}
