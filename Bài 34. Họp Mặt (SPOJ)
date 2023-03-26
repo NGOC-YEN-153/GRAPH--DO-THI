@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+vector<int> v[1005];
+int m , n , k;
+bool used[1005];
+int brute[1005]={0};
+void dfs(int u){
+    used[u] = true;
+    brute[u]++;
+    for(auto x : v[u]){
+        if( !used [ x])dfs(x);
+    }
+}
+void solve(){
+    cin>>k>> n >> m;
+    int a[k];
+    for(auto &x : a)cin>>x;
+    while(m--){
+        int x, y; cin>> x>>y;
+        v[x].push_back(y);
+    }
+    for(auto x : a){
+        memset(used, false , sizeof(used));
+        dfs(x);
+    }
+    int ans =0;
+    for(int i = 0 ; i<= 1004 ; i++){
+        if(brute[i] == k)ans++;
+    }
+    cout<<ans;
+}
+int main(){
+    solve();
+}
