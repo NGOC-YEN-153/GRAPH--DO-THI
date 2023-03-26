@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+int used[1005];
+int n,m,s,t;
+set<int> v[1005];
+int parent[1005];
+void BFS(int u){
+    queue<int>q;
+    q.push(u);
+    while(q.size()){
+        int x=q.front();
+        used[x]=1;
+        q.pop();
+        for(auto j : v[x]){
+            if(!used[j]){
+                q.push(j);
+                used[j]=1;
+                parent[j]=x;
+            }
+        }
+    }
+}
+
+int main(){
+    cin>>n>>m>>s>>t;
+    memset(used,0,sizeof(used));
+    while(m--){
+        int x,y;cin>>x>>y;
+        v[x].insert(y);
+        v[y].insert(x);
+    }
+    ///////
+    BFS(s);
+    if(!used[t])cout<<-1;
+    else {
+        vector<int>way;
+        while(t!=s){
+            way.push_back(t);
+            t=parent[t];
+        }
+        way.push_back(s);
+        for(int i = way.size() - 1 ; i>= 0 ; i--)cout<<way[i]<<" ";
+    }
+}
