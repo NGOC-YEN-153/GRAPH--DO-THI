@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+vector<int>  v[1005];
+bool used[1005];
+int cnt = 0;
+void dfs(int u){
+    used[u] = true;
+    cnt++;
+    for(auto x : v[u]){
+        if( !used [ x])dfs(x);
+    }
+}
+int main(){
+    int n , m;
+    cin>>n>>m;
+    while (m--){
+        int a , b;
+        cin>> a >> b;
+        v[a].push_back(b);
+        v[b].push_back(a);
+    }
+    dfs(1);
+    if( cnt != n)cout<<"YES";
+    else cout<<"NO";
+}
