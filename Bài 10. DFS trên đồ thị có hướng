@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define f first
+#define s second
+int used[1005];
+vector<int> v[1005];
+void DFS (int i){
+    cout<<i<<" ";
+    used[i]=1;
+    for(auto x : v[i]){
+        if(!used[x])DFS(x);
+    }
+}
+int main(){
+    int n,m,s;cin>>n>>m>>s;
+    memset(used,0,sizeof(used));
+    while(m--){
+        int x,y;cin>>x>>y;
+        v[x].push_back(y);
+    }
+    for(int i = 1 ;i <=n ; i++){
+        sort(v[i].begin() , v[i]. end());
+    }
+    DFS(s);
+    // for(int i= 1 ; i<= n ; i++){
+    //     for(auto x : v[i])cout<<x<<" ";
+    //     cout<<endl;
+    // }
+}
