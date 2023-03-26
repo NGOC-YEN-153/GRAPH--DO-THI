@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n  , m  , s;
+set<int> v[1005];
+bool used[1005];
+void bfs(int u){
+    queue<int> q;
+    used[u]= true;
+    q.push(u);
+    while(q.size()){
+        int x = q.front() ; q.pop();
+        for(auto j : v[x]){
+            if(!used[j]){
+                q.push(j);
+                used[j] = true;
+                cout<< x<<"->"<<j<<endl;
+            }
+        }
+    }
+}
+int main(){
+    cin>>n>>m>>s;
+   while(m--){
+           int x , y; cin >> x >> y;
+           v[x].insert(y);
+           v[y].insert(x);
+   }
+    bfs(s);
+}
