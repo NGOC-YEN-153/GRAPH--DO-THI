@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+bool used[1005];
+int n,m;
+set<int> v[1005];
+bool DFS(int u , int par){
+    used[u] = true;
+    for(auto  x : v[u]){
+        if(!used[x]){
+            int ok = DFS( x , u);
+            if(ok)return true;
+        }
+        else if( x != par)return true;
+    }
+    return false;
+}
+int main(){
+    cin>>n>>m;
+    for(int  i= 1 ; i<= m; i++){
+        int x,y;cin>>x>>y;
+        v[x].insert(y);
+        v[y].insert(x);
+    }
+    int check = 1;
+    if(m  != n-1){
+        check=0;
+    }
+    for(int i = 1 ; i<=n ; i++ ){
+        if(!used[i]){
+            int ok = DFS( i , -1);
+            if(ok){
+                check= 0;
+            }
+        }
+    }
+    cout<<check;
+}
