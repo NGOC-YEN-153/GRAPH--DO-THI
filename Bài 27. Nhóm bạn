@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+int n,m;
+set<int> v[1005];
+bool used[1005];
+int cnt =0;
+//char a[1005][1005];
+//int dx[]={-1,0,1,0}, dy[] = { 0,1,0,-1};
+//void dfs(int i , int j){
+//    a[i][j] = '#';
+//    for(int k = 0 ; k < 4 ;  k++){
+//        int I= i+ dx[k] ,  J = j + dy[k];
+//        if( I >= 0 && J >= 0 && I< n && J < m  && a[I][J] == '.' )dfs(I, J);
+//    }
+//}
+void dfs(int u){
+    used[u]=true;
+    cnt++;
+    for(auto x : v[u]){
+        if(!used[x]){
+            dfs(x);
+        }
+    }
+}
+void inp(){
+    cin>>n>>m;
+    for(int i = 1 ;i <= m ;i++){
+        int x , y;
+         cin>>x >> y;
+         v[x].insert(y);
+         v[y].insert(x);
+    }
+}
+int main(){
+    inp();
+    int ans = 0;
+    for(int i =1 ; i<= n ; i++){
+        if(!used[i]){
+            dfs(i);
+            ans= max( ans , cnt);
+            cnt = 0;
+        }
+    }
+    cout<<ans;
+}
