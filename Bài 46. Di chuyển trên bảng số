@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n , m ;
+int a[1005][1005], b[1005][1005];
+int dx[] = { -1 , 0 , 1 , 0} , dy[] = { 0, 1, 0, -1} ;
+void inp(){
+    cin >> n >>m;
+    for(int i = 1; i<= n ;i++){
+        for(int j = 1 ; j<= m ;j++){
+            cin >> a[i][j];
+            b[i][j] = 1e9;
+        }
+    }
+}
+void djk(int u , int v){
+    priority_queue< pair<int , ii> , vector< pair<int , ii> > , greater< pair<int , ii>>  > q ; 
+    q.push({ a[u][v] , {u,v}});
+    b[u][v] = a[u][v];
+    while(q.size()){
+        auto x = q.top() ; q.pop();
+        auto w = x.first ;
+        auto toado = x.second;
+        if(w > b[toado.first][toado.second])continue;
+        for(int k = 0 ; k < 4; k++){
+            int  I= toado.first + dx[k] , J = toado.second + dy[k];
+            if( I >= 1 && J >= 1 && I <= n && J <= m && w + a[I][J]  < b[I][J]){
+                 b[I][J] = w + a[I][J];
+                 q.push({ b[I][J] , { I , J} });
+            }
+        }
+    }
+    cout<<b[n][m];
+}
+void solve(){
+    inp();
+    djk(1,1);
+}
+int main(){
+    solve();
+}
