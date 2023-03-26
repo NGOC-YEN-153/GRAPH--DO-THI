@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n , m, s ;
+vector<ii> adj[1005];
+int way[1005];
+void inp(){
+    cin >> n >>m>>s;
+    while( m--){
+        int x , y , w;cin>> x >> y >> w;
+        adj[x].push_back({ y , w});
+        adj[y].push_back({ x, w});
+    }
+    for(int i = 1 ; i<= n ; i++)way[i] = 1e9;
+    // memset(way, 1e9, sizeof(way));
+}
+void dijkstra(int s){// bfs nang cap , thang be cap nhat thang lon, dam bao toi uu cua toi uu
+       priority_queue<ii , vector<ii> ,greater<ii>> q;
+       q.push( { 0, s});
+       way[s] = 0;
+       while(q.size()){
+           auto x= q.top(); q.pop();
+           int w = x.first , u= x.second ;
+           if(w  > way[u])continue;
+         for(auto x : adj[u]){
+             if( w+ x.second  < way[x.first]){
+                 way[x.first ] = w + x.second ;
+                 q.push({ way[x.first] , x.first});
+             }
+         } 
+    }
+    for(int i = 1 ; i<= n ; i++)cout<<way[i]<<" ";
+}
+void solve(){
+    inp();
+    dijkstra(s);
+}
+int main(){
+    solve();
+}
