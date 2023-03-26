@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+int used[1005];
+int n,m,q;
+set<int> v[1005];
+set<int> t_v[1005];
+stack<int>st;
+void DFS1(int u){
+    used[u] = 1;
+    for(int x : v[u]){
+        if(!used[x]){
+            DFS1(x);
+        }
+    }
+    st.push(u);
+}
+void DFS2(int u){
+    used[u] = 1;
+    for(int x : t_v[u]){
+        if(!used[x]){
+            DFS2(x);
+        }
+    }
+}
+void kosaraju(){
+    int scc= 0 ;
+    memset( used , 0 , sizeof(used)) ;
+    for(int i = 1 ; i <= n ; i++){
+        if(!used[i]){
+            DFS1(i);
+        }
+    }
+    memset(used , 0 ,sizeof(used)) ;
+    while(st.size()){
+        int x = st. top();
+        st.pop();
+        if(!used[x]){
+            scc++;
+            DFS2(x);
+        }
+    }
+    if(scc==1)cout<<1;
+    else cout<<0;
+}
+int main(){
+    cin>>n>>m;
+    while(m--){
+        int x,y;cin>>x>>y;
+        v[x].insert(y);
+        t_v[y].insert(x);
+    }
+    //
+    kosaraju();
+    
+}
