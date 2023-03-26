@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n  , m ;
+vector<ii> v[1000005];
+bool used[100005];
+void inp(){
+    cin >> n >> m;
+    while(m--){
+        int x , y ,z;
+        cin >> x >> y >> z;
+        v[x].push_back({ y ,z});
+        v[y].push_back({ x , z});
+    }
+}
+void bfs(int s){
+    priority_queue<ii, vector<ii> , greater<ii>>q;
+    q.push({ 0 , s});
+    ll ans = 0;
+    int cnt = 0;
+    while(q.size()){
+        auto x = q.top(); q. pop();
+        int w = x.first , u = x.second;
+        if(!used[u]){
+            ans += (ll)w;
+            cnt ++;
+            used[u] = true;
+            for(auto j : v[u]){
+            if(!used[j.first])q.push({ j .second , j.first});
+        }
+      }
+    }
+    if(cnt != n)cout<<"IMPOSSIBLE";
+    else cout<<ans;
+    // cout<<cnt;
+}
+int main(){
+    inp();
+    bfs(1);
+}
