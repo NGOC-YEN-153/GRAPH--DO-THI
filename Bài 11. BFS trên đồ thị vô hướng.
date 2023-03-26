@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define f first
+#define s second
+int used[1005];
+vector<int> v[1005];
+void BFS (int i){
+     queue<int>q;
+     q.push(i);
+     while( q.size() ){
+         int tmp = q.front() ;
+             cout<<tmp<<" ";
+             used[tmp]=1;
+             for(auto x : v[tmp]){
+                 if(!used[x]){
+                     q.push(x);
+                     used[x]=1;
+                 }
+             }
+             q.pop();
+     }
+}
+int main(){
+    int n,m,s;cin>>n>>m>>s;
+    memset(used,0,sizeof(used));
+    while(m--){
+        int x,y;cin>>x>>y;
+        v[x].push_back(y);
+        v[y].push_back(x);
+    }
+    for(int i = 1 ;i <=n ; i++){
+        sort(v[i].begin() , v[i]. end());
+    }
+    BFS(s);
+}
+
+
+
