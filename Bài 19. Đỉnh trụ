@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n  , m , timer = 0 ;
+vector<int> v[1005];
+bool used[1005], vertex[1005];
+int low[1005] , disc[1005];
+void dfs(int u,int par){
+    used[u] = true;
+    disc[u] = low[u] = ++timer;
+    int child = 0;
+    for(auto x : v[u]){
+        if(x == par)continue;
+        if(!used[x]){
+            child ++;
+            dfs(x,u);
+            low[u]= min( low[u] , low[x]);
+            if(low[x] >= disc[u] && par != -1)vertex[u] = true;
+        }
+        else low[u]= min( low[u] , low[x]);
+    }
+    if(child >= 2 && par == -1 )vertex[u] = true;
+}
+int main(){
+    cin>>n>>m;
+    for(int i = 0 ;i< m ;i++){
+        int x , y ; cin>> x>> y;
+        v[x].push_back(y);
+        v[y].push_back(x);
+    }
+    int cnt = 0;
+    dfs(1,-1);
+    for(int i = 1 ; i<= n ; i++){
+        if(vertex[i] )cnt++;
+    }
+    cout<<cnt;
+}
