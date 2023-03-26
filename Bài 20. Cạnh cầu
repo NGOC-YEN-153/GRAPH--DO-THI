@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+int used[1005] , disc[1005] , low[1005] , timer = 0 , n , m, ans= 0;
+//bool vertex [ 1005];
+set<int> v[1005];
+void inp(){
+    cin>>n>>m;
+    while(m--){
+        int x,y;cin>>x>>y;
+        v[x].insert(y);
+        v[y].insert(x);
+    }
+    memset( used, 0 ,sizeof(used));
+}
+void dfs( int u,int par){
+    used[u] = 1;
+    disc[u] = low[u] = ++timer;
+    for(int x : v[u]){
+        if(x== par)continue;
+        if( !used[x]){
+            dfs(x,u);
+            low[u]=  min( low[u] ,  low[x]);
+            if(low[x] > disc[u] )ans++;
+        }
+        else {
+            low[u]=  min( low[u] ,  low[x]);
+        }
+     }
+}
+int main(){
+    inp();
+    for(int i = 1 ; i<= n ; i++){
+        if(!used[i]){
+            dfs(i , -1);
+        }
+    }
+    cout<<ans;
+}
