@@ -21,7 +21,6 @@ void solve(){
 	int ans = 0;
 	priority_queue<ii,vector<ii> , greater<ii>>q;
 	q.push({0,1});
-	used[1] = true;
 	while(q.size()){
 		auto x = q.top() ; q.pop();
 		auto u = x.second , w = x.first;
