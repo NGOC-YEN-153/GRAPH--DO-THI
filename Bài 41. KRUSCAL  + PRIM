@@ -1,0 +1,99 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n,m ;
+bool used[105];
+vector<ii> adj[105];
+void inp(){
+    cin>>n>>m;
+    for(int i =1  ;i<= n ;i++)adj[i].clear();
+    for(int i = 1 ;i <= m ;i++){
+        int x , y , w;
+         cin>>x >> y >> w;
+         adj[x].push_back({ y, w});
+         adj[y].push_back({x , w});
+    }
+    memset(used, false ,sizeof(used));
+}
+void solve(){
+	inp();
+	int ans = 0;
+	priority_queue<ii,vector<ii> , greater<ii>>q;
+	q.push({0,1});
+	used[1] = true;
+	while(q.size()){
+		auto x = q.top() ; q.pop();
+		auto u = x.second , w = x.first;
+		if(used[u])continue;
+		ans+=w;
+		used[u]= true;
+		for(auto j : adj[u]){
+			if(!used[j.first]){
+				q.push({j.second , j.first});
+			}
+		}
+	}
+	cout<<ans<<endl;
+}
+int main(){
+   int t;
+   cin >>t;
+   while(t--)solve();
+}
+//
+PRIM 
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int n,m ;
+struct canh{
+	int x , y , w;
+};
+int cmp(canh a , canh b){
+	return a.w < b.w;
+}
+int par[1005] , sz[1005];
+vector<canh> edge;
+void inp(){
+    cin>>n>>m;
+    for(int i = 1 ; i<= n ;i++)par[i] = i , sz[i] = 1;
+    edge.clear();
+    for(int i = 1 ;i <= m ;i++){
+        int x , y , w;
+         cin>>x >> y >> w;
+         canh a{x,y,w};
+         edge.push_back(a);
+    }
+    sort(edge.begin() , edge.end()  ,cmp );
+}
+int find(int u){
+	if( u == par[u])return u;
+	return u = find(par[u]);
+}
+bool UNION(int u ,int v){
+	u = find(u);
+	v = find (v);
+	if( u == v)return false;
+	if(sz[u] < sz[v])swap(u,v);
+	sz[u]+=sz[v];
+	par[v] = u;
+	return true;
+}
+void kruscal(){
+	int ans = 0;
+	for(auto j : edge){
+		if(UNION (j.x , j.y))ans+=j.w;
+	}
+	cout<<ans<<endl;
+}
+void solve(){
+	inp();
+	kruscal();
+}
+int main(){
+   int t;
+   cin >>t;
+   while(t--)solve();
+}
